@@ -33,3 +33,5 @@
 
 # Folders
 /.vs
+/bin
+/intermediate

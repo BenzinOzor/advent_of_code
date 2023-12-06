@@ -18,6 +18,9 @@
     <ClCompile Include="Sources\Main\main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\2023\01\01.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\2023\01\01.h">
@@ -35,5 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Sources\2023\01\input.txt" />
+    <Text Include="Sources\2023\01\example_input_01.txt" />
+    <Text Include="Sources\2023\01\example_input_02.txt" />
   </ItemGroup>
 </Project>

@@ -2,10 +2,12 @@
 
 int main()
 {
-	auto today = day_01{};
+	auto today = y_2023::day_01{};
 
 	today.step_01();
 	today.step_02();
+
+	system( "pause" );
 
 	return 0;
 }
