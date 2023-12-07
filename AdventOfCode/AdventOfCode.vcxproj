@@ -140,12 +140,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Sources\2023\01\01.cpp" />
+    <ClCompile Include="Sources\Main\Logger\Logger.cpp" />
     <ClCompile Include="Sources\Main\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\2023\01\01.h" />
     <ClInclude Include="Sources\2023\2023.h" />
     <ClInclude Include="Sources\Main\includes.h" />
+    <ClInclude Include="Sources\Main\Logger\Logger.h" />
     <ClInclude Include="Sources\Main\years.h" />
   </ItemGroup>
   <ItemGroup>

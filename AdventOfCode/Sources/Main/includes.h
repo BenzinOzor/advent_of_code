@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+#include <Main/Logger/Logger.h>
+
 
 inline std::string sprintf( const char* pFormat, ... )
 {
