@@ -140,12 +140,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Sources\2023\01\01.cpp" />
+    <ClCompile Include="Sources\2023\07\07.cpp" />
     <ClCompile Include="Sources\Main\BaseDay\BaseDay.cpp" />
     <ClCompile Include="Sources\Main\Logger\Logger.cpp" />
     <ClCompile Include="Sources\Main\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\2023\01\01.h" />
+    <ClInclude Include="Sources\2023\07\07.h" />
     <ClInclude Include="Sources\2023\2023.h" />
     <ClInclude Include="Sources\Main\BaseDay\BaseDay.h" />
     <ClInclude Include="Sources\Main\includes.h" />
@@ -156,6 +158,9 @@
     <Text Include="Sources\2023\01\example_input_01.txt" />
     <Text Include="Sources\2023\01\example_input_02.txt" />
     <Text Include="Sources\2023\01\input.txt" />
+    <Text Include="Sources\2023\07\example_input_01.txt" />
+    <Text Include="Sources\2023\07\example_input_02.txt" />
+    <Text Include="Sources\2023\07\input.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

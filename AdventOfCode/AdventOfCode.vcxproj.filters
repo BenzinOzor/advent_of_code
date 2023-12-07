@@ -27,6 +27,9 @@
     <ClCompile Include="Sources\Main\BaseDay\BaseDay.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\2023\07\07.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\2023\01\01.h">
@@ -47,10 +50,16 @@
     <ClInclude Include="Sources\Main\BaseDay\BaseDay.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\2023\07\07.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Sources\2023\01\input.txt" />
     <Text Include="Sources\2023\01\example_input_01.txt" />
     <Text Include="Sources\2023\01\example_input_02.txt" />
+    <Text Include="Sources\2023\07\input.txt" />
+    <Text Include="Sources\2023\07\example_input_01.txt" />
+    <Text Include="Sources\2023\07\example_input_02.txt" />
   </ItemGroup>
 </Project>
