@@ -113,7 +113,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)AdventOfCode\Sources\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,7 +129,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)AdventOfCode\Sources\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp20</LanguageStandard>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,12 +140,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Sources\2023\01\01.cpp" />
+    <ClCompile Include="Sources\Main\BaseDay\BaseDay.cpp" />
     <ClCompile Include="Sources\Main\Logger\Logger.cpp" />
     <ClCompile Include="Sources\Main\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\2023\01\01.h" />
     <ClInclude Include="Sources\2023\2023.h" />
+    <ClInclude Include="Sources\Main\BaseDay\BaseDay.h" />
     <ClInclude Include="Sources\Main\includes.h" />
     <ClInclude Include="Sources\Main\Logger\Logger.h" />
     <ClInclude Include="Sources\Main\years.h" />

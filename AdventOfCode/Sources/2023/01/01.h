@@ -5,10 +5,10 @@
 
 namespace y_2023
 {
-	class day_01 : public base_day
+	class Day_01 : public BaseDay
 	{
 	public:
-		day_01() : base_day( 2023, 01 ) {}
+		Day_01() : BaseDay( 2023, 01 ) {}
 
 		void step_01();
 		void step_02();

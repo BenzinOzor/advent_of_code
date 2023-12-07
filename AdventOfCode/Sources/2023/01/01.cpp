@@ -12,7 +12,7 @@ namespace y_2023
 		auto string_number = std::string{ "" };
 		auto last_character{ '\0' };
 
-		printf( "\ninput string: %s\n", _string.c_str() );
+		LOG( "input string: %s", _string.c_str() );
 
 		for( const char character : _string )
 		{
@@ -21,7 +21,7 @@ namespace y_2023
 			if( number == 0 )
 				continue;
 
-			printf( " - number found: %d\n", number );
+			LOG( " - number found: %d", number );
 
 			if( string_number.empty() )
 				string_number += character;
@@ -34,11 +34,11 @@ namespace y_2023
 		return atoi( string_number.c_str() );
 	}
 
-	void day_01::step_01()
+	void Day_01::step_01()
 	{
-		base_day::step_01();
+		BaseDay::step_01();
 
-		auto inputFile = std::ifstream( get_file_path( FileType::PuzzleInput ) );
+		auto inputFile = std::ifstream( _get_file_path( FileType::PuzzleInput ) );
 
 		if( inputFile.is_open() == false )
 			return;
@@ -57,16 +57,16 @@ namespace y_2023
 			{
 				final_number += number;
 
-				printf( "new number: %d\n", number );
-				printf( "current sum: %d\n", final_number );
+				LOG( "new number: %d", number );
+				LOG( "current sum: %d", final_number );
 			}
 			else
 				reading = false;
 		}
 	}
 
-	void day_01::step_02()
+	void Day_01::step_02()
 	{
-		base_day::step_02();
+		BaseDay::step_02();
 	}
 };

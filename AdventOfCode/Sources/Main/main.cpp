@@ -1,8 +1,11 @@
 #include <Main/years.h>
+#include <Main/Logger/Logger.h>
 
 int main()
 {
-	auto today = y_2023::day_01{};
+	//Logger::s_enable_logging = false;
+
+	auto today = y_2023::Day_01{};
 
 	today.step_01();
 	today.step_02();
