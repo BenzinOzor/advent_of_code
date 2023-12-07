@@ -31,6 +31,8 @@
 *.out
 *.app
 
+input.txt
+
 # Folders
 /.vs
 /bin
