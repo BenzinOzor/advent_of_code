@@ -6,7 +6,7 @@ namespace y_2023
 {
 	std::unordered_map< char, uint32_t > Day_07::s_cards_value = std::unordered_map< char, uint32_t >();
 
-	void fill_cards_info( const std::string& _cards, Day_07::Hand& _hand )
+	void fill_cards_info( const std::string& _cards, Day_07::Hand& _hand, bool _enable_jokers )
 	{
 		struct cards_number
 		{
@@ -22,8 +22,13 @@ namespace y_2023
 		for( auto card : _cards )
 			++cards_map[ card ];
 
-		for( auto it = cards_map.begin(); it != cards_map.end(); ++it )
-			cards_vector.push_back( { it->first, it->second } );
+		for (auto it = cards_map.begin(); it != cards_map.end(); ++it)
+		{
+			if(_enable_jokers && it->first == 'J' )
+				continue;
+
+			cards_vector.push_back({ it->first, it->second });
+		}
 
 		std::sort( cards_vector.begin(), cards_vector.end(), []( const cards_number& _cardsA, const cards_number& _cardsB )
 			{
@@ -32,6 +37,7 @@ namespace y_2023
 
 		auto pair_found{ false };
 		auto three_of_a_kind_found{ false };
+		auto type_found{ false };
 
 		for( auto cards : cards_vector )
 		{
@@ -45,7 +51,8 @@ namespace y_2023
 				case 4:
 				{
 					_hand.m_type = Day_07::HandType::four_of_a_kind;
-					return;
+					type_found = true;
+					break;
 				}
 				case 3:
 				{
@@ -63,7 +70,8 @@ namespace y_2023
 					if( pair_found )
 					{
 						_hand.m_type = Day_07::HandType::two_pairs;
-						return;
+						type_found = true;
+						break;
 					}
 
 					pair_found = true;
@@ -75,22 +83,46 @@ namespace y_2023
 						continue;
 
 					_hand.m_type = Day_07::HandType::high_card;
-					return;
+					type_found = true;
+					break;
 				}
 			};
+
+			if( type_found )
+				break;
 		}
 
 		if( three_of_a_kind_found )
-		{
 			_hand.m_type = Day_07::HandType::three_of_a_kind;
-			return;
-		}
 
 		if( pair_found )
-		{
 			_hand.m_type = Day_07::HandType::one_pair;
+
+		if( _enable_jokers == false || cards_map[ 'J' ] <= 0 )
 			return;
-		}
+
+		/*
+		* conversion table (from hand without Js)
+		* 
+		* 4 of a kind
+		* - 1J: 5 of a kind
+		* 
+		* 3 of a kind
+		* - 2J: 5 of a kind
+		* - 1J: 4 of a kind
+		* 
+		* 2 pairs
+		* - 1J: Full House
+		* 
+		* 1 pair
+		* - 4J: 5 of a kind
+		* - 3J: 4 of a kind
+		* - 2J: 3 of a kind
+		* - 1J: 3 of a kind
+		* 
+		* high card
+		* - 1 pair with highest card
+		*/
 	}
 
 	std::string get_hand_type_string(Day_07::HandType _type)
@@ -202,5 +234,33 @@ namespace y_2023
 
 	void Day_07::step_02()
 	{
+		BaseDay::step_02();
+
+		s_cards_value['J'] = 1;
+		s_cards_value['2'] = 2;
+		s_cards_value['3'] = 3;
+		s_cards_value['4'] = 4;
+		s_cards_value['5'] = 5;
+		s_cards_value['6'] = 6;
+		s_cards_value['7'] = 7;
+		s_cards_value['8'] = 8;
+		s_cards_value['9'] = 9;
+		s_cards_value['T'] = 10;
+		s_cards_value['Q'] = 11;
+		s_cards_value['K'] = 12;
+		s_cards_value['A'] = 13;
+
+		auto inputFile = _open_input_file(FileType::PuzzleInput);
+
+		if (inputFile.is_open() == false)
+			return;
+
+		auto line = std::string{};
+		auto hands = std::vector< Hand >{};
+
+		while (std::getline(inputFile, line))
+			hands.push_back(get_hand_from_line(line));
+
+		sort_and_rank_hands(hands, _compare_hands);
 	}
 };
