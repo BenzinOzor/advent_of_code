@@ -7,10 +7,13 @@
 
 namespace y_2023
 {
+	auto g_string_values = std::vector< Day_01::NumberStr >{	{ "0", 0 }, { "1", 1 }, { "2", 2 }, { "3", 3 }, { "4", 4 }, { "5", 5 }, { "6", 6 }, { "7", 7 }, { "8", 8 }, { "9", 9 },
+																{ "zero", 0 }, { "one", 1 }, { "two", 2 }, { "three", 3 }, { "four", 4 }, { "five", 5 }, { "six", 6 }, { "seven", 7 }, { "eight", 8 }, { "nine", 9 } };
+
 	int get_number_in_string( const std::string& _string )
 	{
-		auto string_number = std::string{ "" };
-		auto last_character{ '\0' };
+		auto first_number{ 0 };
+		auto last_number{ 0 };
 
 		LOG_NEW_LINE();
 		LOG( "input string: %s", _string.c_str() );
@@ -24,43 +27,49 @@ namespace y_2023
 
 			LOG( " - number found: %d", number );
 
-			if( string_number.empty() )
-				string_number += character;
+			if( first_number <= 0 )
+				first_number += number * 10;
 			
-			last_character = character;
+			last_number = number;
 		}
 
-		string_number += last_character;
-
-		return atoi( string_number.c_str() );
+		return first_number + last_number;
 	}
 
 	int get_number_in_string_02( const std::string& _string )
 	{
-		auto string_number = std::string{ "" };
-		auto last_character{ '\0' };
+		auto first_number{ 0 };
+		auto last_number{ 0 };
 
 		LOG_NEW_LINE();
 		LOG( "input string: %s", _string.c_str() );
 
-		for( const char character : _string )
+		auto leftest_number = std::pair< uint32_t, uint32_t >{ UINT32_MAX, 0 };
+		auto rightest_number = std::pair< uint32_t, uint32_t >{ 0, 0 };
+
+		for( auto number_str : g_string_values )
 		{
-			auto number = atoi( &character );
+			auto ret_first = _string.find( number_str.m_str );
+			auto ret_last = _string.rfind( number_str.m_str );
 
-			if( number == 0 )
-				continue;
+			if( ret_first != std::string::npos && ret_first < leftest_number.first )
+			{
+				leftest_number.first = static_cast< uint32_t >( ret_first );
+				leftest_number.second = number_str.m_value;
 
-			LOG( " - number found: %d", number );
+				LOG( " - left number found: %u (%u)", number_str.m_value, ret_first );
+			}
 
-			if( string_number.empty() )
-				string_number += character;
+			if( ret_last != std::string::npos && ret_last >= rightest_number.first )
+			{
+				rightest_number.first = static_cast<uint32_t>( ret_last );
+				rightest_number.second = number_str.m_value;
 
-			last_character = character;
+				LOG( " - right number found: %u (%u)", number_str.m_value, ret_last );
+			}
 		}
 
-		string_number += last_character;
-
-		return atoi( string_number.c_str() );
+		return leftest_number.second * 10 + rightest_number.second;
 	}
 
 	void Day_01::step_01()
@@ -72,15 +81,12 @@ namespace y_2023
 		if( inputFile.is_open() == false )
 			return;
 
-		char test[256]{};
-		auto reading{ true };
 		auto final_number{ 0 };
+		auto line = std::string{};
 
-		while( reading )
+		while( std::getline( inputFile, line ) )
 		{
-			inputFile.getline( test, sizeof( test ) );
-
-			auto number = get_number_in_string( test );
+			auto number = get_number_in_string( line );
 
 			if( number > 0 )
 			{
@@ -89,8 +95,6 @@ namespace y_2023
 				LOG( "new number: %d", number );
 				LOG( "current sum: %d", final_number );
 			}
-			else
-				reading = false;
 		}
 	}
 
@@ -103,15 +107,12 @@ namespace y_2023
 		if( inputFile.is_open() == false )
 			return;
 
-		char test[256]{};
-		auto reading{ true };
 		auto final_number{ 0 };
+		auto line = std::string{};
 
-		while( reading )
+		while( std::getline( inputFile, line ) )
 		{
-			inputFile.getline( test, sizeof( test ) );
-
-			auto number = get_number_in_string_02( test );
+			auto number = get_number_in_string_02( line );
 
 			if( number > 0 )
 			{
@@ -120,8 +121,6 @@ namespace y_2023
 				LOG( "new number: %d", number );
 				LOG( "current sum: %d", final_number );
 			}
-			else
-				reading = false;
 		}
 	}
 };
