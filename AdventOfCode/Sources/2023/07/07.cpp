@@ -115,6 +115,27 @@ namespace y_2023
 		return "";
 	};
 
+	template< typename fn >
+	void sort_and_rank_hands(std::vector< Day_07::Hand >& _hands, fn&& _sort_fct)
+	{
+		std::ranges::sort(_hands, _sort_fct);
+
+		auto rank{ 1 };
+		auto total_winnings{ 0 };
+
+		for (auto& hand : _hands)
+		{
+			hand.m_rank = rank;
+			hand.m_hand_score = hand.m_rank * hand.m_bid;
+
+			total_winnings += hand.m_hand_score;
+
+			LOG("hand %s (%s): %u x %u = %u // %u", hand.m_hand.c_str(), get_hand_type_string(hand.m_type).c_str(), hand.m_rank, hand.m_bid, hand.m_hand_score, total_winnings);
+
+			++rank;
+		}
+	}
+
 	Day_07::Hand get_hand_from_line( const std::string& _line )
 	{
 		auto hand = Day_07::Hand{};
@@ -171,29 +192,12 @@ namespace y_2023
 			return;
 
 		auto line = std::string{};
-		auto final_number{ 0 };
-
 		auto hands = std::vector< Hand >{};
 
 		while( std::getline( inputFile, line ) )
 			hands.push_back( get_hand_from_line( line ) );
 
-		std::ranges::sort(hands, _compare_hands);
-
-		auto rank{ 1 };
-		auto total_winnings{ 0 };
-
-		for (auto& hand : hands)
-		{
-			hand.m_rank = rank;
-			hand.m_hand_score = hand.m_rank * hand.m_bid;
-
-			total_winnings += hand.m_hand_score;
-
-			LOG( "hand %s (%s): %u x %u = %u // %u", hand.m_hand.c_str(), get_hand_type_string( hand.m_type ).c_str(), hand.m_rank, hand.m_bid, hand.m_hand_score, total_winnings );
-
-			++rank;
-		}
+		sort_and_rank_hands( hands, _compare_hands );
 	}
 
 	void Day_07::step_02()
