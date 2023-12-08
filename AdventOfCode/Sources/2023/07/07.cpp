@@ -178,7 +178,6 @@ namespace y_2023
 				return;
 			}
 			};
-			return;
 		}
 		case Day_07::HandType::high_card:
 		{
@@ -205,7 +204,6 @@ namespace y_2023
 				return;
 			}
 			};
-			return;
 		}
 		};
 	}
