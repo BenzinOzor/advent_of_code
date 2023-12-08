@@ -12,7 +12,7 @@ namespace y_2023
 		{
 			high_card,
 			one_pair,
-			two_pair,
+			two_pairs,
 			three_of_a_kind,
 			full_house,
 			four_of_a_kind,
@@ -24,9 +24,9 @@ namespace y_2023
 		{
 			std::string m_hand{ "" };
 			uint32_t	m_bid{ 0 };
+			uint32_t	m_rank{ 0 };
 			HandType	m_type{ HandType::COUNT };
 
-			uint32_t	m_cards_score{ 0 };
 			uint32_t	m_hand_score{ 0 };
 		};
 
@@ -34,5 +34,9 @@ namespace y_2023
 
 		void step_01();
 		void step_02();
+	private:
+		static bool _compare_hands(const Day_07::Hand& _handA, const Day_07::Hand& _handB);
+
+		static std::unordered_map< char, uint32_t > s_cards_value;
 	};
 };
