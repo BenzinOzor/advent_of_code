@@ -22,6 +22,14 @@ namespace y_2023
 		for( auto card : _cards )
 			++cards_map[ card ];
 
+		auto J_count = cards_map[ 'J' ];
+
+		if( J_count == 5 )
+		{
+			_hand.m_type = Day_07::HandType::five_of_a_kind;
+			return;
+		}
+
 		for (auto it = cards_map.begin(); it != cards_map.end(); ++it)
 		{
 			if(_enable_jokers && it->first == 'J' )
@@ -92,13 +100,16 @@ namespace y_2023
 				break;
 		}
 
-		if( three_of_a_kind_found )
-			_hand.m_type = Day_07::HandType::three_of_a_kind;
+		if( _hand.m_type == Day_07::HandType::COUNT )
+		{
+			if( three_of_a_kind_found )
+				_hand.m_type = Day_07::HandType::three_of_a_kind;
 
-		if( pair_found )
-			_hand.m_type = Day_07::HandType::one_pair;
+			if( pair_found )
+				_hand.m_type = Day_07::HandType::one_pair;
+		}
 
-		if( _enable_jokers == false || cards_map[ 'J' ] <= 0 )
+		if( _enable_jokers == false || J_count <= 0 )
 			return;
 
 		/*
@@ -115,14 +126,88 @@ namespace y_2023
 		* - 1J: Full House
 		* 
 		* 1 pair
-		* - 4J: 5 of a kind
-		* - 3J: 4 of a kind
-		* - 2J: 3 of a kind
+		* - 3J: 5 of a kind
+		* - 2J: 4 of a kind
 		* - 1J: 3 of a kind
 		* 
 		* high card
-		* - 1 pair with highest card
+		* - 4J: 5 of a kind
+		* - 3J: 4 of a kind
+		* - 2J: 3 of a kind
+		* - 1J: one pair
 		*/
+
+		switch (_hand.m_type)
+		{
+		case Day_07::HandType::four_of_a_kind:
+		{
+			_hand.m_type = Day_07::HandType::five_of_a_kind;
+			return;
+		}
+		case Day_07::HandType::three_of_a_kind:
+		{
+			if( J_count == 2 )
+				_hand.m_type = Day_07::HandType::five_of_a_kind;
+			else
+				_hand.m_type = Day_07::HandType::four_of_a_kind;
+
+			return;
+		}
+		case Day_07::HandType::two_pairs:
+		{
+			_hand.m_type = Day_07::HandType::full_house;
+			return;
+		}
+		case Day_07::HandType::one_pair:
+		{
+			switch( J_count )
+			{
+			case 3:
+			{
+				_hand.m_type = Day_07::HandType::five_of_a_kind;
+				return;
+			}
+			case 2:
+			{
+				_hand.m_type = Day_07::HandType::four_of_a_kind;
+				return;
+			}
+			case 1:
+			{
+				_hand.m_type = Day_07::HandType::three_of_a_kind;
+				return;
+			}
+			};
+			return;
+		}
+		case Day_07::HandType::high_card:
+		{
+			switch( J_count )
+			{
+			case 4:
+			{
+				_hand.m_type = Day_07::HandType::five_of_a_kind;
+				return;
+			}
+			case 3:
+			{
+				_hand.m_type = Day_07::HandType::four_of_a_kind;
+				return;
+			}
+			case 2:
+			{
+				_hand.m_type = Day_07::HandType::three_of_a_kind;
+				return;
+			}
+			case 1:
+			{
+				_hand.m_type = Day_07::HandType::one_pair;
+				return;
+			}
+			};
+			return;
+		}
+		};
 	}
 
 	std::string get_hand_type_string(Day_07::HandType _type)
@@ -168,7 +253,7 @@ namespace y_2023
 		}
 	}
 
-	Day_07::Hand get_hand_from_line( const std::string& _line )
+	Day_07::Hand get_hand_from_line( const std::string& _line, bool _enable_jokers )
 	{
 		auto hand = Day_07::Hand{};
 
@@ -177,7 +262,7 @@ namespace y_2023
 		auto cards = _line.substr( 0, space_index );
 		auto bid = _line.substr( space_index + 1 );
 
-		fill_cards_info( cards, hand );
+		fill_cards_info( cards, hand, _enable_jokers );
 
 		hand.m_bid = atoi( bid.c_str() );
 
@@ -227,7 +312,7 @@ namespace y_2023
 		auto hands = std::vector< Hand >{};
 
 		while( std::getline( inputFile, line ) )
-			hands.push_back( get_hand_from_line( line ) );
+			hands.push_back( get_hand_from_line( line, false ) );
 
 		sort_and_rank_hands( hands, _compare_hands );
 	}
@@ -259,7 +344,7 @@ namespace y_2023
 		auto hands = std::vector< Hand >{};
 
 		while (std::getline(inputFile, line))
-			hands.push_back(get_hand_from_line(line));
+			hands.push_back(get_hand_from_line( line, true ));
 
 		sort_and_rank_hands(hands, _compare_hands);
 	}
