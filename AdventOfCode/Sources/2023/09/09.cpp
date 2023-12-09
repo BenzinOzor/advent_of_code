@@ -55,6 +55,31 @@ namespace y_2023
 			}
 		}
 
+		void determine_old_value( uint32_t _line_to_process )
+		{
+			if( _line_to_process >= g_OASIS_report.size() || g_OASIS_report[ _line_to_process ].size() < 1 )
+				return;
+
+			auto& values = g_OASIS_report[ _line_to_process ];
+			
+			// We're on the last line, we only have to copy the previous value
+			if( _line_to_process == g_OASIS_report.size() - 1 )
+				values.emplace( values.begin(), values.front() );
+			else
+			{
+				auto& previous_values = g_OASIS_report[ _line_to_process + 1 ];
+				values.emplace( values.begin(), values.front() - previous_values.front() );
+			}
+
+			if( _line_to_process > 0 )
+				determine_old_value( _line_to_process - 1 );
+			else
+			{
+				g_last_value = values.front();
+				g_total_value += g_last_value;
+			}
+		}
+
 		void fill_base_values( std::string _line )
 		{
 			auto space_index = _line.find_first_of( " " );
@@ -102,6 +127,12 @@ namespace y_2023
 
 		void part_02( const std::string& _line )
 		{
+			g_OASIS_report.clear();
+			fill_base_values( _line );
+			fill_differences( 0 );
+			determine_old_value( static_cast<uint32_t>( g_OASIS_report.size() - 1 ) );
+
+			print_OASIS_report();
 		}
 	}
 
@@ -122,6 +153,6 @@ namespace y_2023
 		LOG_PRIO( LogColor::yellow, "Part 2" );
 
 		d_09::g_total_value = 0;
-		parse_input( year, day, FileType::Example02, d_09::part_02 );
+		parse_input( year, day, FileType::PuzzleInput, d_09::part_02 );
 	}
 }
