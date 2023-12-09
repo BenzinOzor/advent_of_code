@@ -69,7 +69,7 @@ std::vector< std::string > split( const std::string& _line, char _delimiter )
 	return items;
 }
 
-std::vector< int > extract_numbers( const std::string _line, char _delimiter )
+std::vector< int > extract_numbers( const std::string _line, char _delimiter /*= ' '*/ )
 {
 	auto line_stream = std::stringstream( _line );
 	auto item = std::string{};
@@ -86,7 +86,7 @@ std::vector< int > extract_numbers( const std::string _line, char _delimiter )
 	return items;
 }
 
-std::vector< std::string > extract_words( const std::string& _line, char _delimiter )
+std::vector< std::string > extract_words( const std::string& _line, char _delimiter /*= ' '*/ )
 {
 	auto line_stream = std::stringstream( _line );
 	auto item = std::string{};
