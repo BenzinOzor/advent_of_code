@@ -2,7 +2,7 @@
 
 namespace y_2023
 {
-	namespace
+	namespace d_07
 	{
 		enum class HandType
 		{
@@ -234,19 +234,19 @@ namespace y_2023
 		{
 			switch( _type )
 			{
-			case y_2023::HandType::high_card:
+			case HandType::high_card:
 				return "High Card";
-			case y_2023::HandType::one_pair:
+			case HandType::one_pair:
 				return "One pair";
-			case y_2023::HandType::two_pairs:
+			case HandType::two_pairs:
 				return "Two pairs";
-			case y_2023::HandType::three_of_a_kind:
+			case HandType::three_of_a_kind:
 				return "Three of a kind";
-			case y_2023::HandType::full_house:
+			case HandType::full_house:
 				return "Full House";
-			case y_2023::HandType::four_of_a_kind:
+			case HandType::four_of_a_kind:
 				return "Four of a kind";
-			case y_2023::HandType::five_of_a_kind:
+			case HandType::five_of_a_kind:
 				return "Five of a kind";
 			}
 			return "";
@@ -377,11 +377,11 @@ namespace y_2023
 		LOG_PRIO( LogColor::red, "2023 - Day 07 - %s\n", _title.c_str() );
 		LOG_PRIO( LogColor::yellow, "Part 1" );
 
-		part_01();
+		d_07::part_01();
 
 		LOG_NEW_LINE();
 		LOG_PRIO( LogColor::yellow, "Part 2" );
 
-		part_02();
+		d_07::part_02();
 	}
 };

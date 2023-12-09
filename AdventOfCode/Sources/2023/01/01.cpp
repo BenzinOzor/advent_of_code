@@ -5,7 +5,7 @@
 
 namespace y_2023
 {
-	namespace
+	namespace d_01
 	{
 		struct NumberStr
 		{
@@ -140,11 +140,11 @@ namespace y_2023
 		LOG_PRIO( LogColor::red, "2023 - Day 01 - %s\n", _title.c_str() );
 		LOG_PRIO( LogColor::yellow, "Part 1" );
 
-		part_01();
+		d_01::part_01();
 
 		LOG_NEW_LINE();
 		LOG_PRIO( LogColor::yellow, "Part 2" );
 
-		part_02();
+		d_01::part_02();
 	}
 };
