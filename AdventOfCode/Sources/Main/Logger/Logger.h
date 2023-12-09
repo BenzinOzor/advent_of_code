@@ -10,22 +10,6 @@
 #define LOG_NEW_LINE() { Logger::log_new_line(); }
 
 
-inline std::string sprintf( const char* pFormat, ... )
-{
-	std::string sOut;
-	va_list oArgs;
-	va_start( oArgs, pFormat );
-	int iLen;
-	static char sTmp[16384];
-
-	iLen = _vsnprintf_s( sTmp, 16384, pFormat, oArgs );
-
-	sOut.assign( sTmp, iLen );
-
-	return sOut;
-}
-
-
 enum class LogColor
 {
 	black,
