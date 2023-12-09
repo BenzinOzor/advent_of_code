@@ -1,14 +1,16 @@
+#include <functional>
+
 #include <Main/years.h>
-#include <Main/Logger/Logger.h>
+#include <Main/includes.h>
 
 int main()
 {
+	const static auto days = std::vector< std::function<void()> >{	[](){ y_2023::day_01( "Trebuchet?!" ); },
+																	[](){ y_2023::day_07( "Camel Cards" ); } };
+
 	//Logger::s_enable_logging = false;
 
-	auto today = y_2023::Day_01{};
-
-	today.step_01();
-	today.step_02();
+	days[ 0 ]();
 
 	system( "pause" );
 

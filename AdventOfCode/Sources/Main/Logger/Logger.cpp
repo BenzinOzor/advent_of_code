@@ -10,6 +10,9 @@ bool Logger::s_enable_logging = true;
 
 void Logger::log_new_line()
 {
+	if( s_enable_logging == false )
+		return;
+
 	OutputDebugStringA( "\n" );
 	std::print( "\n" );
 }
@@ -39,6 +42,26 @@ void Logger::log_message( const std::string& _file, int _line, LogColor _color, 
 	if( _color < LogColor::COUNT )
 		log_color = _color;
 	
+	va_list args;
+	va_start( args, _message );
+
+	vsprintf_s( sMessage, LogLen - 1, _message, args );
+
+	OutputDebugStringA( sprintf( "%s (%i) : %s\n", _file.c_str(), _line, sMessage ).c_str() );
+
+	SetConsoleTextAttribute( GetStdHandle( STD_OUTPUT_HANDLE ), static_cast<WORD>( log_color ) );
+	_log_to_console( _file, _line, sMessage );
+	SetConsoleTextAttribute( GetStdHandle( STD_OUTPUT_HANDLE ), static_cast<WORD>( LogColor::white ) );
+}
+
+void Logger::log_prio_message( const std::string& _file, int _line, LogColor _color, const char* _message, ... )
+{
+	char sMessage[ LogLen ];
+	LogColor log_color = LogColor::white;
+
+	if( _color < LogColor::COUNT )
+		log_color = _color;
+
 	va_list args;
 	va_start( args, _message );
 

@@ -24,17 +24,14 @@
     <ClCompile Include="Sources\Main\Logger\Logger.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Main\BaseDay\BaseDay.cpp">
+    <ClCompile Include="Sources\2023\07\07.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\2023\07\07.cpp">
+    <ClCompile Include="Sources\Main\Utils\Utils.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sources\2023\01\01.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Sources\2023\2023.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -47,10 +44,7 @@
     <ClInclude Include="Sources\Main\Logger\Logger.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Main\BaseDay\BaseDay.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Sources\2023\07\07.h">
+    <ClInclude Include="Sources\Main\Utils\Utils.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
