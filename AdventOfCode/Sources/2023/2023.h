@@ -9,4 +9,5 @@ namespace y_2023
 	void day_02( const std::string& _title );
 	void day_07( const std::string& _title );
 	void day_09( const std::string& _title );
+	void day_10( const std::string& _title );
 };

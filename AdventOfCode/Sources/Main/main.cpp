@@ -11,12 +11,13 @@ int main()
 		[](){ y_2023::day_01( "Trebuchet?!" ); },
 		[](){ y_2023::day_02( "Cube Conundrum" ); },
 		[](){ y_2023::day_07( "Camel Cards" ); },
-		[](){ y_2023::day_09( "Mirage Maintenance" ); }
+		[](){ y_2023::day_09( "Mirage Maintenance" ); },
+		[](){ y_2023::day_10( "Pipe Maze" ); }
 	};
 
 	//Logger::s_enable_logging = false;
 
-	days[ 1 ]();
+	days[ 4 ]();
 
 	system( "pause" );
 

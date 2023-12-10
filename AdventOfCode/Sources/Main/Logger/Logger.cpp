@@ -74,6 +74,27 @@ void Logger::log_prio_message( const std::string& _file, int _line, LogColor _co
 	SetConsoleTextAttribute( GetStdHandle( STD_OUTPUT_HANDLE ), static_cast<WORD>( LogColor::white ) );
 }
 
+void Logger::colored_print( LogColor _color, const char* _message, ... )
+{
+	if( s_enable_logging == false )
+		return;
+
+	char sMessage[ LogLen ];
+	LogColor log_color = LogColor::white;
+
+	if( _color < LogColor::COUNT )
+		log_color = _color;
+
+	va_list args;
+	va_start( args, _message );
+
+	vsprintf_s( sMessage, LogLen - 1, _message, args );
+
+	SetConsoleTextAttribute( GetStdHandle( STD_OUTPUT_HANDLE ), static_cast<WORD>( log_color ) );
+	std::print( "{}", sMessage );
+	SetConsoleTextAttribute( GetStdHandle( STD_OUTPUT_HANDLE ), static_cast<WORD>( LogColor::white ) );
+}
+
 void Logger::_log_to_console( const std::string& _file, int _line, const char* _message )
 {
 	std::string sTruncatedPath = _file.substr( _file.find_last_of( '\\' ) + 1 );
