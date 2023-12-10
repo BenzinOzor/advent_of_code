@@ -40,6 +40,8 @@ namespace y_2023
 			bool		m_in_loop{ false };
 			bool		m_start{ false };
 			bool		m_far_point{ false };
+			bool		m_inside_loop{ false };
+			bool		m_out_of_bounds{ false };
 		};
 		using Pipes = std::vector< Pipe >;
 		using PipesPtr = std::vector< Pipe* >;
@@ -47,9 +49,9 @@ namespace y_2023
 		struct PuzzleVariables
 		{
 			std::vector< Pipes >	m_map;
-			PipesPtr				m_loop;
 			Position				m_start_position{};
 			uint32_t				m_steps{ 0 };
+			uint32_t				m_inside_tiles{ 0 };
 		};
 		auto g_pv = PuzzleVariables{};
 
@@ -77,21 +79,37 @@ namespace y_2023
 		void print_pipes()
 		{
 			auto pipe_color{ LogColor::white };
+			auto pipe_char = std::string{};
 
-			for( auto pipes_row : g_pv.m_map )
+			for( auto& pipes_row : g_pv.m_map )
 			{
-				for( auto pipe : pipes_row )
+				for( auto& pipe : pipes_row )
 				{
+					pipe_char = pipe.m_pipe;
+
 					if( pipe.m_start )
 						pipe_color = LogColor::pink;
 					else if( pipe.m_far_point )
 						pipe_color = LogColor::purple;
 					else if( pipe.m_in_loop )
 						pipe_color = LogColor::green;
-					else
+					else if( pipe.m_inside_loop )
+					{
 						pipe_color = LogColor::white;
+						pipe_char = "I";
+					}
+					else if( pipe.m_out_of_bounds )
+					{
+						//pipe_char = " ";
+						pipe_color = LogColor::black;
+					}
+					else
+					{
+						pipe_color = LogColor::gray;
+						pipe_char = "O";
+					}
 
-					Logger::colored_print( pipe_color, "%c", pipe.m_pipe );
+					Logger::colored_print( pipe_color, pipe_char.c_str() );
 				}
 				printf( "\n" );
 			}
@@ -383,13 +401,123 @@ namespace y_2023
 				return {};
 
 			next_pipe->m_in_loop = true;
-			//g_pv.m_loop.push_back( next_pipe );
 			++g_pv.m_steps;
-			//add_next_pipe_to_loop( next_pipe, previous_pipe );
 			return { next_pipe, previous_pipe };
 		}
 
-		void parse_game_part_01( const std::string& _line )
+		void compute_loop()
+		{
+			++g_pv.m_steps;
+
+			auto* next_pipe = &g_pv.m_map[ g_pv.m_start_position.m_row ][ g_pv.m_start_position.m_col ];
+			auto previous_pipe{ Direction::COUNT };
+
+			while( next_pipe != nullptr )
+			{
+				auto [ret_pipe, prev_pipe] = add_next_pipe_to_loop( next_pipe, previous_pipe );
+				next_pipe = ret_pipe;
+				previous_pipe = prev_pipe;
+			}
+		}
+
+		void clean_grid()
+		{
+			auto first_loop_pipe_found{ false };
+			auto last_loop_index{ -1 };
+			auto pipe_index{ 0 };
+
+			for( auto& pipes_row : g_pv.m_map )
+			{
+				first_loop_pipe_found = false;
+				last_loop_index = -1;
+				pipe_index = 0;
+
+				for( auto& pipe : pipes_row )
+				{
+					if( first_loop_pipe_found == false )
+					{
+						if( pipe.m_in_loop == false )
+							pipe.m_out_of_bounds = true;
+						else
+							first_loop_pipe_found = true;
+					}
+
+					if( pipe.m_in_loop )
+						last_loop_index = pipe_index;
+
+					++pipe_index;
+				}
+
+				for( auto index{ last_loop_index + 1 }; index < pipes_row.size(); ++index )
+					pipes_row[ index ].m_out_of_bounds = true;
+			}
+		}
+
+		void compute_inside_tiles()
+		{
+			auto last_tile{'\0'};
+
+			for( auto& pipes_row : g_pv.m_map )
+			{
+				auto wall_count{ 0 };
+				
+				for( auto& pipe : pipes_row )
+				{
+					if( pipe.m_out_of_bounds )
+						continue;
+
+					if( pipe.m_in_loop )
+					{
+						switch( pipe.m_pipe )
+						{
+						case '|':
+						{
+							++wall_count;
+							break;
+						}
+						case 'L':
+						{
+							last_tile = 'L';
+							break;
+						}
+						case 'F':
+						{
+							last_tile = 'F';
+							break;
+						}
+						case '7':
+						{
+							if( last_tile == 'L' )
+								++wall_count;
+
+							last_tile = '\0';
+							break;
+						}
+						case 'J':
+						{
+							if( last_tile == 'F' )
+								++wall_count;
+
+							last_tile = '\0';
+							break;
+						}
+						};
+					}
+					else
+					{
+						if( wall_count % 2 == 1 )
+						{
+							pipe.m_inside_loop = true;
+							++g_pv.m_inside_tiles;
+						}
+						else
+							pipe.m_inside_loop = false;
+					}
+				}
+			}
+		}
+
+		void parse_pipes( const std::string& _line )
 		{
 			g_pv.m_map.push_back( {} );
 
@@ -408,42 +536,29 @@ namespace y_2023
 			}
 		}
 
-		void parse_game_part_02( const std::string& _line )
-		{
-		}
-
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		void part_01( uint32_t _year, uint32_t _day )
 		{
 			g_pv = PuzzleVariables{};
-			parse_input( _year, _day, FileType::Example02, parse_game_part_01 );
+			parse_input( _year, _day, FileType::Example01, parse_pipes );
 			determine_start_type();
-
-			g_pv.m_loop.push_back( &g_pv.m_map[ g_pv.m_start_position.m_row ][ g_pv.m_start_position.m_col ] );
-			++g_pv.m_steps;
-
-			auto* next_pipe = &g_pv.m_map[ g_pv.m_start_position.m_row ][ g_pv.m_start_position.m_col ];
-			auto previous_pipe{ Direction::COUNT };
-
-			while( next_pipe != nullptr )
-			{
-				auto [ret_pipe, prev_pipe] = add_next_pipe_to_loop( next_pipe, previous_pipe );
-				next_pipe = ret_pipe;
-				previous_pipe = prev_pipe;
-			}
-
-			auto far_point_index = g_pv.m_steps / 2;
-			//g_pv.m_loop[ far_point_index ]->m_far_point = true;
-
+			compute_loop();
 			print_pipes();
-			LOG_PRIO( LogColor::green, "Steps: %u", far_point_index );
+			LOG_PRIO( LogColor::green, "Steps: %u", g_pv.m_steps / 2 );
 		}
 
 		void part_02( uint32_t _year, uint32_t _day )
 		{
 			g_pv = PuzzleVariables{};
-			parse_input( _year, _day, FileType::PuzzleInput, parse_game_part_02 );
-			//LOG_PRIO( LogColor::green, "Total sum: %u", g_puzzle_variables.m_sum );
+			parse_input( _year, _day, FileType::PuzzleInput, parse_pipes );
+			determine_start_type();
+			compute_loop();
+			clean_grid();
+
+			compute_inside_tiles();
+
+			print_pipes();
+			LOG_PRIO( LogColor::green, "Inside tiles: %u", g_pv.m_inside_tiles );
 		}
 	}
 
