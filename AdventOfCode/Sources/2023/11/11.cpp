@@ -6,11 +6,14 @@ namespace y_2023
 	{
 		struct PuzzleVariables
 		{
+			std::vector< bool > m_column_states{ true };
 		};
 		auto g_pv = PuzzleVariables{};
 
 		void parse_line( const std::string& _line )
 		{
+			g_pv.m_column_states.push_back( {} );
+			//_line.find
 		}
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
