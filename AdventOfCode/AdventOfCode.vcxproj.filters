@@ -39,6 +39,9 @@
     <ClCompile Include="Sources\2023\10\10.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\2023\11\11.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\2023\2023.h">
@@ -70,5 +73,7 @@
     <Text Include="Sources\2023\02\example_input_02.txt" />
     <Text Include="Sources\2023\10\example_input_01.txt" />
     <Text Include="Sources\2023\10\example_input_02.txt" />
+    <Text Include="Sources\2023\11\example_input_01.txt" />
+    <Text Include="Sources\2023\11\example_input_02.txt" />
   </ItemGroup>
 </Project>
