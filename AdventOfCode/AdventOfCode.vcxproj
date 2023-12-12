@@ -145,6 +145,7 @@
     <ClCompile Include="Sources\2023\09\09.cpp" />
     <ClCompile Include="Sources\2023\10\10.cpp" />
     <ClCompile Include="Sources\2023\11\11.cpp" />
+    <ClCompile Include="Sources\2023\12\12.cpp" />
     <ClCompile Include="Sources\Main\Logger\Logger.cpp" />
     <ClCompile Include="Sources\Main\main.cpp" />
     <ClCompile Include="Sources\Main\Utils\Utils.cpp" />
@@ -171,6 +172,8 @@
     <Text Include="Sources\2023\10\example_input_02.txt" />
     <Text Include="Sources\2023\11\example_input_01.txt" />
     <Text Include="Sources\2023\11\example_input_02.txt" />
+    <Text Include="Sources\2023\12\example_input_01.txt" />
+    <Text Include="Sources\2023\12\example_input_02.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
