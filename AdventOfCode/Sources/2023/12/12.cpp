@@ -12,13 +12,23 @@ namespace y_2023
 
 		void parse_line( const std::string& _line )
 		{
+			auto line_split = split( _line, ' ' );
+
+			auto numbers = extract_numbers( line_split[ 1 ], ',' );
+			auto symbols_count = std::unordered_map< char, int >{ {'.', 0}, {'?', 0}, {'#', 0} };
+			auto prev_char{ '\0' };
+
+			for (auto line_char : line_split[0])
+			{
+				++symbols_count[ line_char ];
+			}
 		}
 
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		void part_01( uint32_t _year, uint32_t _day )
 		{
 			g_pv = PuzzleVariables{};
-			parse_input( _year, _day, FileType::PuzzleInput, parse_line );
+			parse_input( _year, _day, FileType::Example01, parse_line );
 			//LOG_PRIO( LogColor::green, "Total length: %llu", g_pv.m_total_length );
 		}
 

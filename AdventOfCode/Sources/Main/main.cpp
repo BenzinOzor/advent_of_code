@@ -4,6 +4,8 @@
 #include <Main/includes.h>
 #include <Main/Utils/Utils.h>
 
+#include <format>
+
 int main()
 {
 	const static auto days = std::vector< std::function<void()> >
@@ -20,6 +22,9 @@ int main()
 	//Logger::s_enable_logging = false;
 
 	days[ 6 ]();
+
+	//const char* test = "prout {}";
+	//auto lol = std::vformat(std::string_view{ test }, days.size());
 
 	system( "pause" );
 
